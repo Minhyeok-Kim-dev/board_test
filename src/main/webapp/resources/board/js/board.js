@@ -1,6 +1,5 @@
 /**
- * 210517_kmh board test용 
- * board test js
+ * 210517_kmh board 처리 관련 js  
  */
  define(["jquery"], function(jquery) {
 	function init() {
