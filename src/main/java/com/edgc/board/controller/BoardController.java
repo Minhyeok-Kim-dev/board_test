@@ -36,4 +36,20 @@ public class BoardController {
 		return "board/index";
 	}
 	
+	@GetMapping(value = "writeForm")
+	public String writeForm() {
+		return "board/contents/write_form";
+	}
+	
+	@GetMapping(value = "listForm")
+	public String listForm() {
+		return "board/contents/list_form";
+	}
+	
+	@GetMapping(value = "detailForm")
+	public String detailForm() {
+		return "board/contents/detail_form";
+	}
+	
+	
 }

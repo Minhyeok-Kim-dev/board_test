@@ -30,8 +30,8 @@
 <body class="hold-transition sidebar-mini">
 	<!-- Site wrapper -->
 	<div class="wrapper">
-		<%@ include file="/WEB-INF/views/board/include/navbar.jsp" %>
 		<%@ include file="/WEB-INF/views/board/include/sidebar.jsp" %>
+		<div id="contents" class="content-wrapper"></div>
 	</div>
 </body>
 

@@ -12,6 +12,18 @@ import lombok.ToString;
 @ToString
 @Builder
 public class Board {
-	private Long seq;
-	private String val;
+	private Long idx;
+	private String userid;
+	private String prdNm;
+	private String type;
+	private String title;
+	private String contents;
+	private String repYn;
+	private String repUserid;
+	private String repContents;
+	private String repWrtdt;
+	private String regdt;
+	private String regid;
+	private String updt;
+	private String upid;
 }

@@ -3,6 +3,10 @@ package com.edgc.util;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+/**
+ * Session 처리 관련 util class
+ * @author Minhyeok Kim
+ */
 public class SessionUtil {
 	/**
 	 * 세션 attribute 가져옴

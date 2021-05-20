@@ -2,8 +2,16 @@
 
 <mapper namespace="com.edgc.board.mapper.BoardMapper">
 	<insert id="insertBoard" parameterType="Board">
-		INSERT INTO BOARD (val) 
-		VALUES (#{val})
+		INSERT INTO BOARD 
+		(
+		  USERID, PRD_NM, TYPE, TITLE, CONTENTS
+		, REP_YN, REGDT, REGID
+		) 
+		VALUES 
+		(
+		  #{userid}, #{prdNm}, #{type}, #{title}, #{contents}
+	    , #{repYn}, now(), #{regid}
+		)
 	</insert>
 
 	<select id="selectBoardList" resultType="Board">
