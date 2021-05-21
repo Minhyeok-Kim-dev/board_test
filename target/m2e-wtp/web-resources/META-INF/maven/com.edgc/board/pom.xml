@@ -26,17 +26,19 @@
 			
 		<!-- MySql -->
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<!--  
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.21</version>
+		</dependency>
+		-->
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
 		    <version>5.1.42</version>
 		</dependency>
-		<!-- MariaDB_local -->
-		<dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>2.2.1</version>
-        </dependency>
+		
 		
 		<!-- Jdbc -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->

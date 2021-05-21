@@ -33,21 +33,21 @@
 	<context:property-placeholder location="/WEB-INF/properties/*.properties"/>
 	
 	<!-- DB Connect (MySql) / Log4jdbc / Transaction / ORM (Mybatis)-->
-	<!-- local_test -->
-	<!--  
+	<!-- _local test -->
 	<beans:bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <beans:property name="driverClassName" value="${jdbc.maria.driverClassName}"/>
-        <beans:property name="url" value="${jdbc.maria.url}"/>
-        <beans:property name="username" value="${jdbc.maria.username}"/>
-        <beans:property name="password" value="${jdbc.maria.password}"/>
+        <beans:property name="driverClassName" value="${jdbc.local.driverClassName}"/>
+        <beans:property name="url" value="${jdbc.local.url}"/>
+        <beans:property name="username" value="${jdbc.local.username}"/>
+        <beans:property name="password" value="${jdbc.local.password}"/>
     </beans:bean>
-    -->
+	<!--  
 	<beans:bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <beans:property name="driverClassName" value="${jdbc.mysql.driverClassName}"/>
         <beans:property name="url" value="${jdbc.mysql.url}"/>
         <beans:property name="username" value="${jdbc.mysql.username}"/>
         <beans:property name="password" value="${jdbc.mysql.password}"/>
     </beans:bean>
+    -->
     <beans:bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
         <beans:constructor-arg ref="dataSourceSpied" />
         

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class LoginForm {
-	private String userid;
+	private String edgcid;
 	private String passwd;
 }

@@ -11,15 +11,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BoardApiRequest {
 	private Long idx;
-	private String userid;
-	private String prdNm;
-	private String type;
+	private String edgcid;
+	private String edgctype;
+	private String testid;
+	private String reqType;
 	private String title;
 	private String contents;
-	private String repYn;
-	private String repUserid;
-	private String repContents;
-	private String repWrtdt;
+	private Long parentsIdx;
+	private int depth;
+	private String fileyn;
+	private String status;
 	private String regdt;
 	private String regid;
 	private String updt;

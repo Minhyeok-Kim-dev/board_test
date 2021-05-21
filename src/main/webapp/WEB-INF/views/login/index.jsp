@@ -22,7 +22,7 @@
 
 <body>
 	<form action="<c:url value="/login"/>" method="post">
-		<input type="text" name="userid" placeholder="Enter ID">
+		<input type="text" name="edgcid" placeholder="Enter ID">
 		<input type="password" name="passwd" placeholder="Enter PW">
 		<button type="submit" class="btn btn-primary">Login</button>
 	</form>

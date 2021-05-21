@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.edgc.board.controller.ifs.CrudInterface;
@@ -41,13 +40,17 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 		}
 		
 		Board board = Board.builder()
-				.userid(userInfo.getUserid())
-				.prdNm(body.getPrdNm())
-				.type(body.getType())
+				.edgcid(userInfo.getEdgcid())
+				.edgctype(userInfo.getEdgctype())
+				.testid(body.getTestid())
+				.reqType(body.getReqType())
 				.title(body.getTitle())
 				.contents(body.getContents())
-				.repYn("N")
-				.regid(userInfo.getUserid())
+				.parentsIdx(0L)
+				.depth(0)
+				.fileyn("N")
+				.status("N")
+				.regid(userInfo.getEdgcid())
 				.build();
 		
 		// 트랜잭션 정의, 상태 객체 생성
@@ -100,15 +103,20 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 	}
 
 	
-	private Header<BoardApiResponse> response(Board test) {
+	private Header<BoardApiResponse> response(Board board) {
 		BoardApiResponse body = BoardApiResponse.builder()
-				.idx(test.getIdx())
-				.userid(test.getUserid())
-				.prdNm(test.getPrdNm())
-				.type(test.getType())
-				.title(test.getTitle())
-				.contents(test.getContents())
-				.regid(test.getRegid())
+				.idx(board.getIdx())
+				.edgcid(board.getEdgcid())
+				.edgctype(board.getEdgctype())
+				.testid(board.getTestid())
+				.reqType(board.getReqType())
+				.title(board.getTitle())
+				.contents(board.getContents())
+				.parentsIdx(board.getParentsIdx())
+				.depth(board.getDepth())
+				.fileyn(board.getFileyn())
+				.status(board.getStatus())
+				.regid(board.getRegid())
 				.build();
 		
 		return Header.OK(body);

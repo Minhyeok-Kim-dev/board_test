@@ -14,11 +14,11 @@ import lombok.ToString;
 @Builder
 @ToString
 public class UserInfo {
-	private String userid;
+	private String edgcid;
 	private String passwd;
+	private String edgctype;
 	private String usernm;
 	private String company;
-	private String type;
 	private LocalDateTime regdt;
 	private String regid;
 	private LocalDateTime updt;

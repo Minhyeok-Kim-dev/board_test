@@ -15,22 +15,22 @@
         		</div>
       		</div>
       		<div class="form-group row">
-        		<label for="writeForm_sbPrdNm" class="col-sm-1 col-form-label">문의유형</label>
+        		<label for="writeForm_sbTestid" class="col-sm-1 col-form-label">문의유형</label>
         		<div class="col-sm-2">
-          			<select id="writeForm_sbPrdNm" class="form-control">
-          				<option value=0>검사명</option>
-          				<option value=1>검사1</option>
-          				<option value=2>검사2</option>
-          				<option value=3>검사3</option>
+          			<select id="writeForm_sbTestid" class="form-control">
+          				<option value="">검사명</option>
+          				<option value="검사1">검사1</option>
+          				<option value="검사2">검사2</option>
+          				<option value="검사3">검사3</option>
           			</select>
         		</div>
         		<div class="col-sm-4">
-          			<select id="writeForm_sbType" class="form-control">
-          				<option value=0>문의유형</option>
-          				<option value=1>접수문의</option>
-          				<option value=2>결과문의</option>
-          				<option value=3>결과상담</option>
-          				<option value=4>기타</option>
+          			<select id="writeForm_sbReqType" class="form-control">
+          				<option value="">문의유형</option>
+          				<option value="10">접수문의</option>
+          				<option value="20">결과문의</option>
+          				<option value="30">결과상담</option>
+          				<option value="90">기타</option>
           			</select>
         		</div>
       		</div>

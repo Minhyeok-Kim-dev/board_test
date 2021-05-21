@@ -18,7 +18,7 @@ public class LoginServiceImpl implements LoginService {
 		System.out.println("######### login : " + loginForm);
 		
 		UserInfo userInfo = UserInfo.builder()
-				.userid(loginForm.getUserid())
+				.edgcid(loginForm.getEdgcid())
 				.passwd(loginForm.getPasswd())
 				.build();
 		

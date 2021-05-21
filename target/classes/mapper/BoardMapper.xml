@@ -4,13 +4,15 @@
 	<insert id="insertBoard" parameterType="Board">
 		INSERT INTO BOARD 
 		(
-		  USERID, PRD_NM, TYPE, TITLE, CONTENTS
-		, REP_YN, REGDT, REGID
+		  EDGCID, EDGCTYPE, TESTID, REQ_TYPE, TITLE
+		, CONTENTS, PARENTS_IDX, DEPTH, FILEYN, STATUS
+		, REGDT, REGID
 		) 
 		VALUES 
 		(
-		  #{userid}, #{prdNm}, #{type}, #{title}, #{contents}
-	    , #{repYn}, now(), #{regid}
+		  #{edgcid}, #{edgctype}, #{testid}, #{reqType}, #{title}
+		, #{contents}, #{parentsIdx}, #{depth}, #{fileyn}, #{status}
+		, now(), #{regid} 
 		)
 	</insert>
 

@@ -18,8 +18,8 @@
 			e.preventDefault();
 			let header = {
 				"data": {
-					"prdNm" : $("#writeForm_sbPrdNm").val(),
-					"type": $("#writeForm_sbType").val(),
+					"testid" : $("#writeForm_sbTestid").val(),
+					"reqType": $("#writeForm_sbReqType").val(),
 					"title": $("#writeForm_txtTitle").val(),
 					"contents": $("#writeForm_taContents").val()	
 				}
