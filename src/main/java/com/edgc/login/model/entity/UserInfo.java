@@ -1,26 +1,20 @@
 package com.edgc.login.model.entity;
 
-import java.time.LocalDateTime;
+import com.edgc.common.base.model.entity.BaseEntity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@ToString
-public class UserInfo {
+@SuperBuilder
+public class UserInfo extends BaseEntity {
 	private String edgcid;
 	private String passwd;
 	private String edgctype;
 	private String usernm;
 	private String company;
-	private LocalDateTime regdt;
-	private String regid;
-	private LocalDateTime updt;
-	private String upid;
 }

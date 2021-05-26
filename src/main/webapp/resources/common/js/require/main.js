@@ -10,6 +10,7 @@ requirejs.config({
 		"login": "login/js/login",
         "board": "board/js/board",
         "sidebar": "board/js/include/sidebar",
+        "dataTables": "https://cdn.datatables.net/1.10.24/js/jquery.dataTables",
     },
     //waitSeconds: 200,
     shim: {
@@ -19,6 +20,7 @@ requirejs.config({
 		"login": {"exports": "login", "deps": ["jquery"]},
 		"board": {"exports": "board", "deps": ["jquery"]},
 		"sidebar": {"exports": "sidebar", "deps": ["jquery", "board"]},
+		"dataTables": {"exports": "dataTables", "deps": ["jquery"]},
     }
 });
 

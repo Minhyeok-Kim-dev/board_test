@@ -21,11 +21,9 @@
 </head>
 
 <body>
-	<form action="<c:url value="/login"/>" method="post">
-		<input type="text" name="edgcid" placeholder="Enter ID">
-		<input type="password" name="passwd" placeholder="Enter PW">
-		<button type="submit" class="btn btn-primary">Login</button>
-	</form>
+	<input id="txtEdgcid" type="text" name="edgcid" placeholder="Enter ID">
+	<input id="txtPasswd" type="password" name="passwd" placeholder="Enter PW">
+	<button id="btnLogin" class="btn btn-primary">Login</button>
 </body>
 
 <script>

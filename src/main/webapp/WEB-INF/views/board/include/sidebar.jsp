@@ -17,6 +17,7 @@
 	      	</div>
 	      	<div class="info">
 		        <a href="#" class="d-block">Minhyeok Kim</a>
+		        <button id="sidebar_btnLogout" class="btn btn-secondary">Logout</button>
 	      	</div>
 	    </div>
 

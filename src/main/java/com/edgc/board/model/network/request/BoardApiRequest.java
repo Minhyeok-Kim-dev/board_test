@@ -1,28 +1,27 @@
 package com.edgc.board.model.network.request;
 
+import java.util.ArrayList;
+
+import com.edgc.board.model.entity.Board;
+import com.edgc.board.model.network.parameter.Paging;
+import com.edgc.board.model.network.parameter.Search;
+import com.edgc.board.model.network.parameter.Sort;
+import com.edgc.login.model.entity.UserInfo;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class BoardApiRequest {
-	private Long idx;
-	private String edgcid;
-	private String edgctype;
-	private String testid;
-	private String reqType;
-	private String title;
-	private String contents;
-	private Long parentsIdx;
-	private int depth;
-	private String fileyn;
-	private String status;
-	private String regdt;
-	private String regid;
-	private String updt;
-	private String upid;
+	private Search search;
+	private Paging paging;
+	private ArrayList<Sort> sort;
+	private Board board;
+	private UserInfo userInfo;
 }

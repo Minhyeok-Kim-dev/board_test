@@ -1,7 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.edgc.board.mapper.BoardMapper">
-	<insert id="insertBoard" parameterType="Board">
+	<insert id="insertBoard" parameterType="BoardDto">
 		INSERT INTO BOARD 
 		(
 		  EDGCID, EDGCTYPE, TESTID, REQ_TYPE, TITLE
@@ -10,15 +10,88 @@
 		) 
 		VALUES 
 		(
-		  #{edgcid}, #{edgctype}, #{testid}, #{reqType}, #{title}
-		, #{contents}, #{parentsIdx}, #{depth}, #{fileyn}, #{status}
-		, now(), #{regid} 
+		  #{board.edgcid}, #{board.edgctype}, #{board.testid}, #{board.reqType}, #{board.title}
+		, #{board.contents}, #{board.parentsIdx}, #{board.depth}, #{board.fileyn}, #{board.status}
+		, now(), #{board.regid} 
 		)
 	</insert>
 
-	<select id="selectBoardList" resultType="Board">
-		SELECT *
+	<select id="selectBoardListCnt" resultType="Integer" parameterType="BoardDto">
+		SELECT COUNT(IDX)
 		  FROM BOARD
 		 WHERE 1 = 1
+		   AND STATUS != 'D'
+		   AND ${search.skey} LIKE CONCAT('%', #{search.svalue}, '%')
 	</select>
+
+	<select id="selectBoardList" resultType="BoardForm" parameterType="BoardDto">
+		SELECT B.IDX, B.TESTID, B.TITLE, B.REGDT, B.STATUS
+		     , U.COMPANY
+		  FROM BOARD B
+		  LEFT JOIN USER_INFO U
+		    ON U.EDGCID = B.EDGCID
+		 WHERE 1 = 1
+		   AND STATUS != 'D'
+  	  	   <!-- 사용자 정보 -->
+		   <if test = 'userInfo != null and userInfo.edgctype =="CLIENT"'>
+		   AND B.EDGCID = #{userInfo.edgcid}
+		   </if>
+		   <!-- 검색 정보 -->
+		   <if test = 'search != null'>
+		   AND ${search.skey} LIKE CONCAT('%', #{search.svalue}, '%')
+		   </if>
+		   
+		 <!-- 정렬 -->
+		 <if test = 'sort.size != 0'>
+		 ORDER BY 
+		   <foreach collection="sort" item="s" separator="," index="index">
+		     ${s.column} ${s.sord}
+		   </foreach> 
+		 </if>
+		   
+		 <!-- 페이징 -->
+		 <if test = 'paging != null'>
+		 LIMIT #{paging.offset}, #{paging.pageSize}
+		 </if>
+	</select>
+	
+	<select id="selectBoard" resultType="BoardForm" parameterType="BoardDto">
+		SELECT B.IDX, B.EDGCID, B.EDGCTYPE, B.TESTID, B.REQ_TYPE
+		     , B.TITLE, B.CONTENTS, B.PARENTS_IDX, B.DEPTH, B.FILEYN
+		     , B.STATUS, B.REGDT, B.REGID, U.COMPANY
+		  FROM BOARD B
+		  LEFT JOIN USER_INFO U
+		    ON U.EDGCID = B.EDGCID
+		 WHERE 1 = 1
+		   AND STATUS != 'D'
+		   AND B.IDX = #{board.idx}
+	</select>
+
+	<update id="updateBoard" parameterType="BoardDto">
+		UPDATE BOARD
+		   SET EDGCTYPE = #{board.edgctype}
+		     , TESTID = #{board.testid}
+		     , REQ_TYPE = #{board.reqType}
+		     , TITLE = #{board.title}
+		     , CONTENTS = #{board.contents}
+		     , PARENTS_IDX = #{board.parentsIdx}
+		     , DEPTH = #{board.depth}
+		     , FILEYN = #{board.fileyn}
+		     , STATUS = #{board.status}
+		     , REGDT = #{board.regdt}
+		     , REGID = #{board.regid}
+		     , UPDT = #{board.updt}
+		     , UPID = #{board.upid}
+		 WHERE 1 = 1
+		   AND IDX = #{board.idx} 
+	</update>	
+	
+	<delete id="deleteBoard" parameterType="BoardDto">
+		UPDATE BOARD
+		   SET STATUS = 'D'
+		     , UPDT = #{board.updt}
+		     , UPID = #{board.upid}
+		 WHERE 1 = 1
+		   AND IDX = #{board.idx}
+	</delete>
 </mapper>

@@ -1,0 +1,11 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.edgc.login2.mapper.Login2Mapper">
+	<select id="select" resultType="Login2" parameterType="Login2Dto">
+		SELECT *
+		  FROM USER_INFO
+		 WHERE 1 = 1
+		   AND EDGCID = #{entity.edgcid}
+		   AND PASSWD = #{entity.passwd}
+	</select>
+</mapper>

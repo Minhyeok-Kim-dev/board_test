@@ -1,6 +1,5 @@
 package com.edgc.board.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,13 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<Board> selectTestList() {
+		/*
 		ArrayList<Board> testList = boardMapper.selectBoardList();
 		
  		for(Board t : testList) {
 			System.out.println(t);
 		}
-		
+		*/
 		return null;
 	}
 

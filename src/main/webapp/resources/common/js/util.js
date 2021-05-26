@@ -74,11 +74,14 @@ define(["jquery", "Promise"], function(jquery, Promise) {
                     data: paramObj,
                     async: false,
                 }).done(function(data) {
+					resolve(data);
+					/*
                     if(data.length > 0) {                
                         resolve(data);
                     } else {
                         resolve(false);
                     }
+                    */
                 }).fail(function(data) {
                     resolve(false);
                 });
@@ -89,11 +92,14 @@ define(["jquery", "Promise"], function(jquery, Promise) {
                     url: getContextPath() + "/" + pageId,
                     type: "GET",
                 }).done(function(data) {
+					resolve(data);
+					/*
                     if(data.length > 0) {                
                         resolve(data);
                     } else {
                         resolve(false);
                     }
+                    */
                 }).fail(function(data) {
                     resolve(false);
                 });
@@ -137,11 +143,107 @@ define(["jquery", "Promise"], function(jquery, Promise) {
             });
         });
     }
+   
+   
+   /*
+     * sendPutRequest <PROMISE>
+     * 
+     * @description: 
+     *   pageId로 PUT메시지를 전송합니다.
+     * 
+     * @param: 
+     *   {String} pageId: 전송할 pageId
+     *   {Object} paramObj: 전송할 parameter 객체 
+     * 
+     * @return: 
+     *   {Object}: 
+     *      정상: controller return값
+     *      실패: false  
+     */
+    function sendPutRequest(pageId, paramObj) {
+        return new Promise(function(resolve){
+            $.ajax({
+                "url": getContextPath() + "/" + pageId,
+                "type": "PUT",
+                "contentType": "application/json",
+                "data": paramObj
+            }).done(function(data) {    
+				resolve(data);
+				/*
+                if(data.length > 0) {                
+                    resolve(data);
+                } else {
+                    resolve(false);
+                }
+                */
+            }).fail(function(data) {
+                resolve(false);
+            });
+        });
+    }
+    
+    /*
+     * sendDeleteRequest <PROMISE>
+     * 
+     * @description: 
+     *   pageId로 DELETE메시지를 전송합니다.
+     * 
+     * @param: 
+     *   {String} pageId: 전송할 pageId
+     *   {Object} paramObj: 전송할 parameter 객체 
+     * 
+     * @return: 
+     *   {Object}: 
+     *      정상: controller return값
+     *      실패: false  
+     */
+    function sendDeleteRequest(pageId, paramObj) {
+        return new Promise(function(resolve){
+            $.ajax({
+                "url": getContextPath() + "/" + pageId,
+                "type": "DELETE",
+                "contentType": "application/json",
+                "data": paramObj
+            }).done(function(data) {    
+				resolve(data);
+				/*
+                if(data.length > 0) {                
+                    resolve(data);
+                } else {
+                    resolve(false);
+                }
+                */
+            }).fail(function(data) {
+                resolve(false);
+            });
+        });
+    }
+   	
+   	/*
+     * sendRedirect
+     * 
+     * @description: 
+     *   Redirect 처리를 수행합니다.
+     * 
+     * @param: 
+     *   {String} pageId: 전송할 pageId (contextPath 제외)
+     * 
+     * @return:
+     *   {none} 
+     */
+   	function sendRedirect(pageId) {
+		window.location.href = getContextPath() + "/" + pageId;
+	}
+    
+    
     
     return {
 		getContextPath: getContextPath,
 		showPage: showPage,
 		sendGetRequest: sendGetRequest,
 		sendPostRequest: sendPostRequest,
+		sendPutRequest: sendPutRequest,
+		sendDeleteRequest: sendDeleteRequest,
+		sendRedirect: sendRedirect
 	}
 });

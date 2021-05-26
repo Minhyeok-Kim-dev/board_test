@@ -1,5 +1,7 @@
 package com.edgc.board.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -7,14 +9,20 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import com.edgc.board.controller.ifs.CrudInterface;
 import com.edgc.board.mapper.BoardMapper;
+import com.edgc.board.model.dto.BoardDto;
+import com.edgc.board.model.dto.BoardForm;
 import com.edgc.board.model.entity.Board;
-import com.edgc.board.model.network.Header;
+import com.edgc.board.model.network.parameter.Paging;
+import com.edgc.board.model.network.parameter.Search;
+import com.edgc.board.model.network.parameter.Sort;
 import com.edgc.board.model.network.request.BoardApiRequest;
 import com.edgc.board.model.network.response.BoardApiResponse;
+import com.edgc.common.base.model.network.Header;
+import com.edgc.common.ifs.CrudInterface;
+import com.edgc.common.util.DateUtil;
+import com.edgc.common.util.SessionUtil;
 import com.edgc.login.model.entity.UserInfo;
-import com.edgc.util.SessionUtil;
 
 @Service
 public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiResponse> {
@@ -28,29 +36,25 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 	public Header<BoardApiResponse> create(Header<BoardApiRequest> request) {
 		BoardApiRequest body = request.getData();
 		
-		// 세션에서 사용자 정보 가져옴
-		UserInfo userInfo = null;
-		try {
-			userInfo = (UserInfo) SessionUtil.getAttribute("userInfo");
-			if(userInfo == null) {
-				return null;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Board boardInfo = body.getBoard();
+		UserInfo userInfo = body.getUserInfo();
 		
 		Board board = Board.builder()
 				.edgcid(userInfo.getEdgcid())
 				.edgctype(userInfo.getEdgctype())
-				.testid(body.getTestid())
-				.reqType(body.getReqType())
-				.title(body.getTitle())
-				.contents(body.getContents())
+				.testid(boardInfo.getTestid())
+				.reqType(boardInfo.getReqType())
+				.title(boardInfo.getTitle())
+				.contents(boardInfo.getContents())
 				.parentsIdx(0L)
 				.depth(0)
-				.fileyn("N")
+				.fileyn(boardInfo.getFileyn())
 				.status("N")
 				.regid(userInfo.getEdgcid())
+				.build();
+		
+		BoardDto boardDto = BoardDto.builder()
+				.board(board)
 				.build();
 		
 		// 트랜잭션 정의, 상태 객체 생성
@@ -62,7 +66,7 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 			tranDef = new DefaultTransactionDefinition();
 			tranStat = transactionManager.getTransaction(tranDef);
 
-			int ret = boardMapper.insertBoard(board);
+			int ret = boardMapper.insertBoard(boardDto);
 			System.out.println("# insert : " + ret);
 			System.out.println(board);
 			
@@ -79,46 +83,163 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 	}
 
 	@Override
-	public Header<BoardApiResponse> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public Header<BoardApiResponse> read(Header<BoardApiRequest> request) {
+		BoardApiRequest body = request.getData();
+		Search search = body.getSearch();
+		Paging paging = body.getPaging();
+		ArrayList<Sort> sortList = body.getSort();
+		
+		// 세션에서 사용자 정보 가져옴 - TODO: AOP 적용
+		UserInfo userInfo = null;
+		try {
+			userInfo = (UserInfo) SessionUtil.getAttribute("userInfo");
+			if(userInfo == null) {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		BoardDto boardDto = BoardDto.builder()
+				.search(search)
+				.paging(paging)
+				.sort(sortList)
+				.userInfo(userInfo)
+				.build();
+
+		System.out.println("##### Search");
+		System.out.println(search);
+		int listCnt = boardMapper.selectBoardListCnt(boardDto);
+		System.out.println(listCnt);
+		
+		
+		System.out.println("##### Paging");
+		
+		int cPage = body.getPaging().getCPage();
+		int pageSize = body.getPaging().getPageSize();
+		int totalPage = (listCnt - 1) / (pageSize + 1);
+		
+		paging = new Paging(cPage, pageSize, totalPage);
+		body.setPaging(paging);
+		System.out.println(paging);
+		
+		System.out.println("##### Sort");
+		for(Sort sort : sortList) {
+			System.out.println(sort);
+		}
+		
+		ArrayList<BoardForm> boardFormList = boardMapper.selectBoardList(boardDto);
+		
+		for(BoardForm board : boardFormList) {
+			System.out.println(board);
+		}
+		
+		return response(paging, boardFormList);
 	}
 
 	@Override
-	public Header<BoardApiResponse> read(Long id) {
+	public Header<BoardApiResponse> read(Long idx) {
+		BoardDto boardDto = BoardDto.builder()
+				.board(Board.builder().idx(idx).build())
+				.build();
+		
+		BoardForm boardForm = boardMapper.selectBoard(boardDto);
+		System.out.println(boardForm);
+		
 		// TODO Auto-generated method stub
-		return null;
+		return response(boardForm);
 	}
 
 	@Override
 	public Header<BoardApiResponse> update(Header<BoardApiRequest> request) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("### update");
+		System.out.println(request);
+		
+		BoardApiRequest body = request.getData();
+		Board board = body.getBoard();
+		
+		if(board == null) {
+			return Header.Error();
+		}
+		
+		// 세션에서 사용자 정보 가져옴 - TODO: AOP 적용
+		UserInfo userInfo = null;
+		try {
+			userInfo = (UserInfo) SessionUtil.getAttribute("userInfo");
+			if(userInfo == null) {
+				return Header.Error();
+			}
+			
+			board.setUpdt(DateUtil.now());
+			board.setUpid(userInfo.getEdgcid());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		BoardDto boardDto = BoardDto.builder()
+				.board(board)
+				.build();
+
+		int ret = boardMapper.updateBoard(boardDto);
+		System.out.println("result: " + ret);
+		
+		return response(board);
 	}
 
 	@Override
-	public Header<BoardApiResponse> delete(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Header<BoardApiResponse> delete(Long idx) {
+		Board board = Board.builder()
+				.idx(idx)
+				.build();
+		
+		// 세션에서 사용자 정보 가져옴 - TODO: AOP 적용
+		UserInfo userInfo = null;
+		try {
+			userInfo = (UserInfo) SessionUtil.getAttribute("userInfo");
+			if(userInfo == null) {
+				return Header.Error();
+			}
+			
+			
+			board.setUpdt(DateUtil.now());
+			board.setUpid(userInfo.getEdgcid());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		BoardDto boardDto = BoardDto.builder()
+				.board(board)
+				.build();
+		
+		int ret = boardMapper.deleteBoard(boardDto);
+		System.out.println("result: " + ret);
+		
+		return Header.OK();
 	}
 
 	
 	private Header<BoardApiResponse> response(Board board) {
 		BoardApiResponse body = BoardApiResponse.builder()
-				.idx(board.getIdx())
-				.edgcid(board.getEdgcid())
-				.edgctype(board.getEdgctype())
-				.testid(board.getTestid())
-				.reqType(board.getReqType())
-				.title(board.getTitle())
-				.contents(board.getContents())
-				.parentsIdx(board.getParentsIdx())
-				.depth(board.getDepth())
-				.fileyn(board.getFileyn())
-				.status(board.getStatus())
-				.regid(board.getRegid())
+				.board(board)
 				.build();
-		
+		return Header.OK(body);
+	}
+	
+	private Header<BoardApiResponse> response(BoardForm boardForm) {
+		BoardApiResponse body = BoardApiResponse.builder()
+				.boardForm(boardForm)
+				.build();
+		return Header.OK(body);
+	}
+	
+	private Header<BoardApiResponse> response(Paging paging, ArrayList<BoardForm> boardList) {
+		BoardApiResponse body = BoardApiResponse.builder()
+				.paging(paging)
+				.boardFormList(boardList)
+				.build();
 		return Header.OK(body);
 	}
 }

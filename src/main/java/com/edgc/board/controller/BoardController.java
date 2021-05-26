@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.edgc.board.service.BoardService;
+import com.edgc.common.util.SessionUtil;
 import com.edgc.login.model.entity.UserInfo;
-import com.edgc.util.SessionUtil;
 
 @Controller
 @RequestMapping(value = "/board")
