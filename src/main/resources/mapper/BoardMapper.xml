@@ -94,4 +94,16 @@
 		   AND STATUS != 'D'
 		   AND B.IDX = #{entity.idx}
 	</select>
+	
+	<select id="selectReplyFormListByBoardIdx" resultType="ReplyForm" parameterType="BoardDto">
+		SELECT B.IDX, B.EDGCID, B.EDGCTYPE, B.TESTID, B.REQ_TYPE
+		     , B.TITLE, B.CONTENTS, B.PARENTS_IDX, B.DEPTH, B.FILEYN
+		     , B.STATUS, B.REGDT, B.REGID, U.USERNM
+		  FROM BOARD B
+		  LEFT JOIN USER_INFO U
+		    ON U.EDGCID = B.EDGCID
+		 WHERE 1 = 1
+		   AND STATUS != 'D'
+		   AND B.PARENTS_IDX = #{entity.idx}
+	</select>
 </mapper>

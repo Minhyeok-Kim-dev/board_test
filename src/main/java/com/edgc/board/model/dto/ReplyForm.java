@@ -15,6 +15,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
-public class BoardForm extends Board {
-	private String company;
+public class ReplyForm extends Board {
+	private String usernm;
 }

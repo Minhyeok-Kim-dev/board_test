@@ -288,7 +288,7 @@
 				}
 			};
 			
-			util.sendPostRequest("api/reply", JSON.stringify(header)).then(function(result) {
+			util.sendPostRequest("api/board", JSON.stringify(header)).then(function(result) {
 	            alert(result);
 	        });			
 		});

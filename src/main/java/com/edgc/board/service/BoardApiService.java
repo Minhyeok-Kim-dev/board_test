@@ -12,6 +12,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.edgc.board.mapper.BoardMapper;
 import com.edgc.board.model.dto.BoardDto;
 import com.edgc.board.model.dto.BoardForm;
+import com.edgc.board.model.dto.ReplyForm;
 import com.edgc.board.model.entity.Board;
 import com.edgc.board.model.network.parameter.Paging;
 import com.edgc.board.model.network.parameter.Search;
@@ -36,22 +37,41 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 	public Header<BoardApiResponse> create(Header<BoardApiRequest> request) {
 		BoardApiRequest body = request.getData();
 		
-		Board boardInfo = body.getBoard();
+		Board board = body.getBoard();
 		UserInfo userInfo = body.getUserInfo();
 		
-		Board board = Board.builder()
-				.edgcid(userInfo.getEdgcid())
-				.edgctype(userInfo.getEdgctype())
-				.testid(boardInfo.getTestid())
-				.reqType(boardInfo.getReqType())
-				.title(boardInfo.getTitle())
-				.contents(boardInfo.getContents())
-				.parentsIdx(0L)
-				.depth(0)
-				.fileyn(boardInfo.getFileyn())
-				.status("N")
-				.regid(userInfo.getEdgcid())
-				.build();
+		// parentIdx 존재 유무로 board, reply 구분
+		if(board.getParentsIdx() == null) {
+			// 게시글
+			board = Board.builder()
+					.edgcid(userInfo.getEdgcid())
+					.edgctype(userInfo.getEdgctype())
+					.testid(board.getTestid())
+					.reqType(board.getReqType())
+					.title(board.getTitle())
+					.contents(board.getContents())
+					.parentsIdx(0L)
+					.depth(0)
+					.fileyn(board.getFileyn())
+					.status("N")
+					.regid(userInfo.getEdgcid())
+					.build();			
+		} else {
+			// 댓글
+			board = Board.builder()
+					.edgcid(userInfo.getEdgcid())
+					.edgctype(userInfo.getEdgctype())
+					.testid("")
+					.reqType("")
+					.title("")
+					.contents(board.getContents())
+					.parentsIdx(board.getParentsIdx())
+					.depth(board.getDepth())
+					.fileyn("N")
+					.status(board.getStatus())
+					.regid(userInfo.getEdgcid())
+					.build();
+		}
 		
 		// 트랜잭션 정의, 상태 객체 생성
 		TransactionDefinition tranDef = null;
@@ -140,6 +160,14 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 				.build();
 		
 		BoardForm boardForm = boardMapper.selectBoardFormByIdx(boardDto);
+		ArrayList<ReplyForm> replyFormList = boardMapper.selectReplyFormListByBoardIdx(boardDto);
+		
+		System.out.println("###### boardForm : " + boardForm);
+		System.out.println("###### replyForm : ");
+		for(ReplyForm r : replyFormList) {
+			System.out.println(r);
+		}
+		
 		System.out.println(boardForm);
 		
 		// TODO Auto-generated method stub
