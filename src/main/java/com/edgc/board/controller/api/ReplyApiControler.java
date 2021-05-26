@@ -1,6 +1,5 @@
 package com.edgc.board.controller.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,16 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.edgc.board.model.network.request.BoardApiRequest;
 import com.edgc.board.model.network.response.BoardApiResponse;
 import com.edgc.board.service.ReplyApiService;
+import com.edgc.common.base.controller.BaseApiController;
 import com.edgc.common.base.model.network.Header;
-import com.edgc.common.ifs.CrudInterface;
 import com.edgc.common.util.SessionUtil;
 import com.edgc.login.model.entity.UserInfo;
 
 @RestController
 @RequestMapping("/api/reply")
-public class ReplyApiControler implements CrudInterface<BoardApiRequest, BoardApiResponse>{
-	@Autowired
-	ReplyApiService replyApiService;
+public class ReplyApiControler extends BaseApiController<ReplyApiService, BoardApiRequest, BoardApiResponse>{
 	
 	@Override
 	@PostMapping("")
@@ -40,7 +37,7 @@ public class ReplyApiControler implements CrudInterface<BoardApiRequest, BoardAp
 			e.printStackTrace();
 		}
 		
-		return replyApiService.create(request);
+		return this.service.create(request);
 	}
 
 	@Override

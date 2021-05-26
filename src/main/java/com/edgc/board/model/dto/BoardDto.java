@@ -1,19 +1,24 @@
 package com.edgc.board.model.dto;
 
-import com.edgc.board.model.network.request.BoardApiRequest;
+import java.util.ArrayList;
+
+import com.edgc.board.model.entity.Board;
+import com.edgc.board.model.network.parameter.Paging;
+import com.edgc.board.model.network.parameter.Search;
+import com.edgc.board.model.network.parameter.Sort;
+import com.edgc.common.base.model.dto.BaseDto;
 import com.edgc.login.model.entity.UserInfo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @SuperBuilder
-@ToString
-public class BoardDto extends BoardApiRequest {
+public class BoardDto extends BaseDto<Board> {
+	private Search search;
+	private Paging paging;
+	private ArrayList<Sort> sort;
 	private UserInfo userInfo;
 }

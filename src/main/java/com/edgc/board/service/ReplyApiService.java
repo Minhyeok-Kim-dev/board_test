@@ -13,11 +13,12 @@ import com.edgc.board.model.entity.Board;
 import com.edgc.board.model.network.request.BoardApiRequest;
 import com.edgc.board.model.network.response.BoardApiResponse;
 import com.edgc.common.base.model.network.Header;
+import com.edgc.common.base.service.BaseApiService;
 import com.edgc.common.ifs.CrudInterface;
 import com.edgc.login.model.entity.UserInfo;
 
 @Service
-public class ReplyApiService implements CrudInterface<BoardApiRequest, BoardApiResponse> {
+public class ReplyApiService extends BaseApiService<BoardApiRequest, BoardApiResponse>{
 	@Autowired
 	BoardMapper boardMapper;
 	
@@ -45,10 +46,6 @@ public class ReplyApiService implements CrudInterface<BoardApiRequest, BoardApiR
 				.regid(userInfo.getEdgcid())
 				.build();
 		
-		BoardDto boardDto = BoardDto.builder()
-				.board(board)
-				.build();
-		
 		// 트랜잭션 정의, 상태 객체 생성
 		TransactionDefinition tranDef = null;
 		TransactionStatus tranStat = null;
@@ -58,7 +55,7 @@ public class ReplyApiService implements CrudInterface<BoardApiRequest, BoardApiR
 			tranDef = new DefaultTransactionDefinition();
 			tranStat = transactionManager.getTransaction(tranDef);
 
-			int ret = boardMapper.insertBoard(boardDto);
+			int ret = boardMapper.insertEntity(board);
 			System.out.println("# insert : " + ret);
 			System.out.println(board);
 			

@@ -19,13 +19,13 @@ import com.edgc.board.model.network.parameter.Sort;
 import com.edgc.board.model.network.request.BoardApiRequest;
 import com.edgc.board.model.network.response.BoardApiResponse;
 import com.edgc.common.base.model.network.Header;
-import com.edgc.common.ifs.CrudInterface;
+import com.edgc.common.base.service.BaseApiService;
 import com.edgc.common.util.DateUtil;
 import com.edgc.common.util.SessionUtil;
 import com.edgc.login.model.entity.UserInfo;
 
 @Service
-public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiResponse> {
+public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiResponse>{
 	@Autowired
 	BoardMapper boardMapper;
 	
@@ -53,10 +53,6 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 				.regid(userInfo.getEdgcid())
 				.build();
 		
-		BoardDto boardDto = BoardDto.builder()
-				.board(board)
-				.build();
-		
 		// 트랜잭션 정의, 상태 객체 생성
 		TransactionDefinition tranDef = null;
 		TransactionStatus tranStat = null;
@@ -66,7 +62,7 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 			tranDef = new DefaultTransactionDefinition();
 			tranStat = transactionManager.getTransaction(tranDef);
 
-			int ret = boardMapper.insertBoard(boardDto);
+			int ret = boardMapper.insertEntity(board);
 			System.out.println("# insert : " + ret);
 			System.out.println(board);
 			
@@ -128,7 +124,7 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 			System.out.println(sort);
 		}
 		
-		ArrayList<BoardForm> boardFormList = boardMapper.selectBoardList(boardDto);
+		ArrayList<BoardForm> boardFormList = boardMapper.selectBoardFormList(boardDto);
 		
 		for(BoardForm board : boardFormList) {
 			System.out.println(board);
@@ -140,10 +136,10 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 	@Override
 	public Header<BoardApiResponse> read(Long idx) {
 		BoardDto boardDto = BoardDto.builder()
-				.board(Board.builder().idx(idx).build())
+				.entity(Board.builder().idx(idx).build())
 				.build();
 		
-		BoardForm boardForm = boardMapper.selectBoard(boardDto);
+		BoardForm boardForm = boardMapper.selectBoardFormByIdx(boardDto);
 		System.out.println(boardForm);
 		
 		// TODO Auto-generated method stub
@@ -178,11 +174,7 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 		}
 		
 		
-		BoardDto boardDto = BoardDto.builder()
-				.board(board)
-				.build();
-
-		int ret = boardMapper.updateBoard(boardDto);
+		int ret = boardMapper.updateEntity(board);
 		System.out.println("result: " + ret);
 		
 		return response(board);
@@ -210,11 +202,7 @@ public class BoardApiService implements CrudInterface<BoardApiRequest, BoardApiR
 			e.printStackTrace();
 		}
 		
-		BoardDto boardDto = BoardDto.builder()
-				.board(board)
-				.build();
-		
-		int ret = boardMapper.deleteBoard(boardDto);
+		int ret = boardMapper.deleteEntity(board);
 		System.out.println("result: " + ret);
 		
 		return Header.OK();

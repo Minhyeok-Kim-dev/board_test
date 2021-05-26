@@ -1,16 +1,12 @@
 package com.edgc.common.base.model.dto;
 
-import com.edgc.common.base.model.entity.BaseEntity;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@NoArgsConstructor
-@ToString
+@AllArgsConstructor
 @SuperBuilder
-public class BaseDto<E extends BaseEntity> {
+public class BaseDto<E> {
 	private E entity;
 }

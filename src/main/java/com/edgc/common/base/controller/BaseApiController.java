@@ -3,8 +3,6 @@ package com.edgc.common.base.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.edgc.common.base.mapper.BaseMapper;
-import com.edgc.common.base.model.entity.BaseEntity;
 import com.edgc.common.base.model.network.Header;
 import com.edgc.common.base.model.network.request.BaseApiRequest;
 import com.edgc.common.base.model.network.response.BaseApiResponse;

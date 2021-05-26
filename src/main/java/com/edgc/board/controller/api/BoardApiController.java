@@ -1,6 +1,5 @@
 package com.edgc.board.controller.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,16 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.edgc.board.model.network.request.BoardApiRequest;
 import com.edgc.board.model.network.response.BoardApiResponse;
 import com.edgc.board.service.BoardApiService;
+import com.edgc.common.base.controller.BaseApiController;
 import com.edgc.common.base.model.network.Header;
-import com.edgc.common.ifs.CrudInterface;
 import com.edgc.common.util.SessionUtil;
 import com.edgc.login.model.entity.UserInfo;
 
 @RestController
 @RequestMapping("/api/board")
-public class BoardApiController implements CrudInterface<BoardApiRequest, BoardApiResponse> {
-	@Autowired
-	BoardApiService boardApiService;
+public class BoardApiController 
+		extends BaseApiController<BoardApiService, BoardApiRequest, BoardApiResponse> {
 	
 	@Override
 	@PostMapping("")
@@ -44,7 +42,7 @@ public class BoardApiController implements CrudInterface<BoardApiRequest, BoardA
 			e.printStackTrace();
 		}
 		
-		return boardApiService.create(request);
+		return service.create(request);
 	}
 
 	@Override
@@ -53,14 +51,14 @@ public class BoardApiController implements CrudInterface<BoardApiRequest, BoardA
 		System.out.println("############# read");
 		System.out.println(request);
 		
-		return boardApiService.read(request);
+		return service.read(request);
 	}
 
 	@Override
 	@GetMapping("{idx}")
 	public Header<BoardApiResponse> read(@PathVariable(name = "idx") Long idx) {
 		System.out.println("############# read by idx : " + idx);
-		return boardApiService.read(idx);
+		return service.read(idx);
 	}
 
 	@Override
@@ -68,7 +66,7 @@ public class BoardApiController implements CrudInterface<BoardApiRequest, BoardA
 	public Header<BoardApiResponse> update(@RequestBody Header<BoardApiRequest> request) {
 		System.out.println("############# update");
 		System.out.println(request);
-		return boardApiService.update(request);
+		return service.update(request);
 	}
 
 	@Override
@@ -77,6 +75,6 @@ public class BoardApiController implements CrudInterface<BoardApiRequest, BoardA
 		System.out.println("############# delete by idx : " + idx);
 		System.out.println(idx);
 		
-		return boardApiService.delete(idx);
+		return service.delete(idx);
 	}
 }

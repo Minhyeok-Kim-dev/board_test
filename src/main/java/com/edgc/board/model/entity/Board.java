@@ -1,17 +1,20 @@
 package com.edgc.board.model.entity;
 
+import com.edgc.common.base.model.entity.BaseEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
+
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @SuperBuilder
-public class Board {
+public class Board extends BaseEntity {
 	private Long idx;
 	private String edgcid;
 	private String edgctype;
@@ -23,8 +26,4 @@ public class Board {
 	private int depth;
 	private String fileyn;
 	private String status;
-	private String regdt;
-	private String regid;
-	private String updt;
-	private String upid;
 }

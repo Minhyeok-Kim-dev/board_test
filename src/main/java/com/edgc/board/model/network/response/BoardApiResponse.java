@@ -5,19 +5,22 @@ import java.util.ArrayList;
 import com.edgc.board.model.dto.BoardForm;
 import com.edgc.board.model.entity.Board;
 import com.edgc.board.model.network.parameter.Paging;
+import com.edgc.common.base.model.network.response.BaseApiResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BoardApiResponse {
+public class BoardApiResponse extends BaseApiResponse {
 	private Paging paging;
 	private Board board;
 	private BoardForm boardForm;
