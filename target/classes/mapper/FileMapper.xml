@@ -23,4 +23,12 @@
 		 WHERE 1 = 1
 		   AND IDX = #{idx}
 	</select>
+	
+	<select id="selectFileListByBoardIdx" resultType="FileEntity" parameterType="FileEntity">
+		SELECT IDX, BOARD_IDX, FILE_PATH, ORG_FILE_NM, SAVE_FILE_NM
+		     , FILE_SIZE, REGDT, REGID
+		  FROM FILE
+		 WHERE 1 = 1
+		   AND BOARD_IDX = #{boardIdx}
+	</select>
 </mapper>

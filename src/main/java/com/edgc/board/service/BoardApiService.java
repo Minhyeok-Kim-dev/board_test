@@ -186,14 +186,18 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 				.build();
 		
 		BoardForm boardForm = boardMapper.selectBoardFormByIdx(boardDto);
+		
+		// 댓글 리스트 추가
 		ArrayList<ReplyForm> replyFormList = boardMapper.selectReplyFormListByBoardIdx(boardDto);
+		boardForm.setReplyList(replyFormList);
 		
+		// 파일 리스트 추가
+		FileEntity fileEntity = FileEntity.builder()
+				.boardIdx(idx)
+				.build();
 		
-		System.out.println("###### boardForm : " + boardForm);
-		System.out.println("###### replyForm : ");
-		for(ReplyForm r : replyFormList) {
-			System.out.println(r);
-		}
+		ArrayList<FileEntity> fileList = fileMapper.selectFileListByBoardIdx(fileEntity);
+		boardForm.setFileList(fileList);
 		
 		System.out.println(boardForm);
 		
