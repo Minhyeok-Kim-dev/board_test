@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
-public class Board extends BaseEntity {
+public class BoardEntity extends BaseEntity {
 	private Long idx;
 	private String edgcid;
 	private String edgctype;

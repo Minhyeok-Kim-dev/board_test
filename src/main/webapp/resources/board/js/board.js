@@ -36,6 +36,7 @@
 		// - '저장' 버튼
 		$("#writeForm_btnSave").on("click", function(e) {
 			e.preventDefault();
+
 			let header = {
 				"data": {
 					"board": {
@@ -47,15 +48,47 @@
 				}
 			};
 			
-			util.sendPostRequest("api/board", JSON.stringify(header)).then(function(result) {
-                alert(result);
-            });
+			let filesLen = $("#writeForm_filesForm input[name='file']")[0].files.length;
+			
+			_fileUpload(filesLen).then(function(result) {
+				if(result !== false) {
+					header.data.fileList = result.data.fileList;
+				}
+				
+				util.sendPostRequest("api/board", JSON.stringify(header)).then(function(result) {
+	                alert(result);
+	            });
+			});
+			
 		});
 	}
 	
 	function showWriteForm() {
 		util.showPage("board/writeForm", $("#contents")).then(function() {
 			_initWriteFormEvents();		
+		});
+	}
+	
+	
+	function _fileUpload(filesLen) {
+		return new Promise(function(resolve) {
+			if(filesLen === 0) {
+				resolve(false);
+			}
+			
+			let formData = new FormData($("#writeForm_filesForm")[0]);
+		
+			$.ajax({
+                "url": util.getContextPath() + "/api/file/upload",
+                "type": "POST",
+                "processData": false,
+				"contentType": false,
+                "data": formData
+            }).done(function(data) {    
+				resolve(data);
+            }).fail(function(data) {
+                resolve(false);
+            });
 		});
 	}
 	

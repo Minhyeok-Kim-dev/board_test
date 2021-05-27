@@ -11,6 +11,9 @@
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
+	<!-- Properties -->
+	<context:property-placeholder location="/WEB-INF/properties/*.properties"/>
+	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 	
@@ -24,4 +27,10 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.edgc" />
+
+	<!-- File upload -->	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="1073700000" />	<!-- 1GB -->
+		<beans:property name="maxInMemorySize" value="1073700000" /> <!-- 1GB -->
+	</beans:bean>
 </beans:beans>

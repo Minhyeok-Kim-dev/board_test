@@ -8,7 +8,7 @@
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 		
 	<!-- Properties -->
-	<context:property-placeholder location="/WEB-INF/properties/*.properties"/>
+	<context:property-placeholder location="/WEB-INF/properties/db.properties"/>
 		
 	<!-- Transaction init -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>

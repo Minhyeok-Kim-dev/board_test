@@ -1,7 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.edgc.board.mapper.BoardMapper">
-	<insert id="insertEntity" parameterType="Board">
+	<insert id="insertEntity" parameterType="BoardEntity" useGeneratedKeys="true" keyProperty="idx">
 		INSERT INTO BOARD 
 		(
 		  EDGCID, EDGCTYPE, TESTID, REQ_TYPE, TITLE
@@ -16,7 +16,7 @@
 		)
 	</insert>
 
-<update id="updateEntity" parameterType="Board">
+<update id="updateEntity" parameterType="BoardEntity">
 		UPDATE BOARD
 		   SET EDGCTYPE = #{edgctype}
 		     , TESTID = #{testid}
@@ -35,7 +35,7 @@
 		   AND IDX = #{idx} 
 	</update>	
 	
-	<delete id="deleteEntity" parameterType="Board">
+	<delete id="deleteEntity" parameterType="BoardEntity">
 		UPDATE BOARD
 		   SET STATUS = 'D'
 		     , UPDT = #{updt}

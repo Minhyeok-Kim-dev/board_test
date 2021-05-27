@@ -1,6 +1,6 @@
 package com.edgc.board.model.dto;
 
-import com.edgc.board.model.entity.Board;
+import com.edgc.board.model.entity.BoardEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +15,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
-public class ReplyForm extends Board {
+public class ReplyForm extends BoardEntity {
 	private String usernm;
 }

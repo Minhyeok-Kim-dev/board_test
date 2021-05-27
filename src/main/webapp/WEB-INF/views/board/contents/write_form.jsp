@@ -6,7 +6,7 @@
 	</div>
   <!-- /.card-header -->
   <!-- form start -->
-  	<form class="form-horizontal">
+  	<div class="form-horizontal">
     	<div class="card-body">
       		<div class="form-group row">
         		<label for="writeForm_txtComapny" class="col-sm-1 col-form-label">의뢰기관명</label>
@@ -46,20 +46,22 @@
           			<textarea id="writeForm_taContents" class="form-control" rows="3"></textarea>
         		</div>
       		</div>
-      		<div class="form-group row">
+      		
+      		<!-- file 처리 -->
+      		<form id="writeForm_filesForm" class="form-group row">
         		<label for="writeForm_file" class="col-sm-1 col-form-label">파일첨부</label>
        			<div class="col-sm-6 ">
        				<div class="custom-file">
-	          			<input id="writeForm_file" type="file" class="custom-file-input">
+	          			<input name="file" type="file" multiple="multiple" class="custom-file-input">
 	          			<label class="custom-file-label" for="writeForm_file">Choose File</label>
        				</div>
         		</div>
-      		</div>
+      		</form>
     	</div>
     	<!-- /.card-body -->
     	<div class="card-footer">
       		<button id="writeForm_btnSave" class="btn btn-info float-right">등록</button>
     	</div>
     <!-- /.card-footer -->
-  	</form>
+  	</div>
 </div>

@@ -17,11 +17,20 @@
 				}
 			};
 			
+			/*
 			util.sendPostRequest("api/login", JSON.stringify(header)).then(function(result) {
                 if(result.success === true) {
 					util.sendRedirect("board");
 				}
             });
+            */
+            
+            $.ajax({
+                url: util.getContextPath() + "/" + "api/file/download",
+                type: "GET",
+            }).done(function(data) {
+				console.log(data);
+			});
 		});
 	}
 	

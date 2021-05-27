@@ -2,7 +2,8 @@ package com.edgc.board.model.network.request;
 
 import java.util.ArrayList;
 
-import com.edgc.board.model.entity.Board;
+import com.edgc.board.model.entity.BoardEntity;
+import com.edgc.board.model.entity.FileEntity;
 import com.edgc.board.model.network.parameter.Paging;
 import com.edgc.board.model.network.parameter.Search;
 import com.edgc.board.model.network.parameter.Sort;
@@ -24,6 +25,8 @@ public class BoardApiRequest extends BaseApiRequest {
 	private Search search;
 	private Paging paging;
 	private ArrayList<Sort> sort;
-	private Board board;
+	private BoardEntity board;
 	private UserInfo userInfo;
+	
+	private ArrayList<FileEntity> fileList;
 }

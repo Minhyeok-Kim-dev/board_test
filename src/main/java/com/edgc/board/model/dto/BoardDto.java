@@ -2,7 +2,7 @@ package com.edgc.board.model.dto;
 
 import java.util.ArrayList;
 
-import com.edgc.board.model.entity.Board;
+import com.edgc.board.model.entity.BoardEntity;
 import com.edgc.board.model.network.parameter.Paging;
 import com.edgc.board.model.network.parameter.Search;
 import com.edgc.board.model.network.parameter.Sort;
@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
-public class BoardDto extends BaseDto<Board> {
+public class BoardDto extends BaseDto<BoardEntity> {
 	private Search search;
 	private Paging paging;
 	private ArrayList<Sort> sort;

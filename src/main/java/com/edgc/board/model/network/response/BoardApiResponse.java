@@ -3,7 +3,7 @@ package com.edgc.board.model.network.response;
 import java.util.ArrayList;
 
 import com.edgc.board.model.dto.BoardForm;
-import com.edgc.board.model.entity.Board;
+import com.edgc.board.model.entity.BoardEntity;
 import com.edgc.board.model.network.parameter.Paging;
 import com.edgc.common.base.model.network.response.BaseApiResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BoardApiResponse extends BaseApiResponse {
 	private Paging paging;
-	private Board board;
+	private BoardEntity board;
 	private BoardForm boardForm;
 	private ArrayList<BoardForm> boardFormList;
 }

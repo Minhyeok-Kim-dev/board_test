@@ -10,10 +10,12 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.edgc.board.mapper.BoardMapper;
+import com.edgc.board.mapper.FileMapper;
 import com.edgc.board.model.dto.BoardDto;
 import com.edgc.board.model.dto.BoardForm;
 import com.edgc.board.model.dto.ReplyForm;
-import com.edgc.board.model.entity.Board;
+import com.edgc.board.model.entity.BoardEntity;
+import com.edgc.board.model.entity.FileEntity;
 import com.edgc.board.model.network.parameter.Paging;
 import com.edgc.board.model.network.parameter.Search;
 import com.edgc.board.model.network.parameter.Sort;
@@ -31,19 +33,28 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 	BoardMapper boardMapper;
 	
 	@Autowired
+	FileMapper fileMapper;
+	
+	@Autowired
 	PlatformTransactionManager transactionManager;
 	
 	@Override
 	public Header<BoardApiResponse> create(Header<BoardApiRequest> request) {
 		BoardApiRequest body = request.getData();
 		
-		Board board = body.getBoard();
+		BoardEntity board = body.getBoard();
 		UserInfo userInfo = body.getUserInfo();
+		ArrayList<FileEntity> fileList = body.getFileList();
 		
 		// parentIdx 존재 유무로 board, reply 구분
-		if(board.getParentsIdx() == null) {
+		Boolean isBoard = (board.getParentsIdx() == null) ? true : false;
+		// file 존재여부
+		Boolean isExistFile = (fileList != null) ? true : false;
+		
+		
+		if(isBoard) {
 			// 게시글
-			board = Board.builder()
+			board = BoardEntity.builder()
 					.edgcid(userInfo.getEdgcid())
 					.edgctype(userInfo.getEdgctype())
 					.testid(board.getTestid())
@@ -52,13 +63,13 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 					.contents(board.getContents())
 					.parentsIdx(0L)
 					.depth(0)
-					.fileyn(board.getFileyn())
+					.fileyn(isExistFile ? "Y" : "N")
 					.status("N")
 					.regid(userInfo.getEdgcid())
 					.build();			
 		} else {
 			// 댓글
-			board = Board.builder()
+			board = BoardEntity.builder()
 					.edgcid(userInfo.getEdgcid())
 					.edgctype(userInfo.getEdgctype())
 					.testid("")
@@ -84,7 +95,22 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 
 			int ret = boardMapper.insertEntity(board);
 			System.out.println("# insert : " + ret);
-			System.out.println(board);
+			
+			if(isExistFile) {
+				Long boardIdx = board.getIdx(); // get GeneratedKeys
+				
+				System.out.println("############## file list");
+				if(fileList != null) {
+					// Entity field 추가설정
+					for(FileEntity file : fileList) {
+						file.setBoardIdx(boardIdx);
+						file.setRegid(userInfo.getEdgcid());
+					}
+					
+					ret = fileMapper.insertEntityList(fileList);
+					System.out.println(ret);
+				}
+			}
 			
 			// Commit
 			transactionManager.commit(tranStat);
@@ -156,11 +182,12 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 	@Override
 	public Header<BoardApiResponse> read(Long idx) {
 		BoardDto boardDto = BoardDto.builder()
-				.entity(Board.builder().idx(idx).build())
+				.entity(BoardEntity.builder().idx(idx).build())
 				.build();
 		
 		BoardForm boardForm = boardMapper.selectBoardFormByIdx(boardDto);
 		ArrayList<ReplyForm> replyFormList = boardMapper.selectReplyFormListByBoardIdx(boardDto);
+		
 		
 		System.out.println("###### boardForm : " + boardForm);
 		System.out.println("###### replyForm : ");
@@ -180,7 +207,7 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 		System.out.println(request);
 		
 		BoardApiRequest body = request.getData();
-		Board board = body.getBoard();
+		BoardEntity board = body.getBoard();
 		
 		if(board == null) {
 			return Header.Error();
@@ -210,7 +237,7 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 
 	@Override
 	public Header<BoardApiResponse> delete(Long idx) {
-		Board board = Board.builder()
+		BoardEntity board = BoardEntity.builder()
 				.idx(idx)
 				.build();
 		
@@ -237,7 +264,7 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 	}
 
 	
-	private Header<BoardApiResponse> response(Board board) {
+	private Header<BoardApiResponse> response(BoardEntity board) {
 		BoardApiResponse body = BoardApiResponse.builder()
 				.board(board)
 				.build();
