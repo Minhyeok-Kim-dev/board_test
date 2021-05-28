@@ -15,7 +15,13 @@ import com.edgc.board.service.BoardApiService;
 import com.edgc.common.base.controller.BaseApiController;
 import com.edgc.common.base.model.network.Header;
 import com.edgc.common.util.SessionUtil;
-import com.edgc.login.model.entity.UserInfo;
+import com.edgc.login.model.entity.UserInfoEntity;
+
+/**
+ * 게시판 관련 RestAPI Controller입니다.
+ * 
+ * @author MINHYEOK.KIM
+ */
 
 @RestController
 @RequestMapping("/api/board")
@@ -29,9 +35,9 @@ public class BoardApiController
 		System.out.println(request);
 		
 		// 세션에서 사용자 정보 가져옴 - TODO: AOP 적용 -> Controller에서?
-		UserInfo userInfo = null;
+		UserInfoEntity userInfo = null;
 		try {
-			userInfo = (UserInfo) SessionUtil.getAttribute("userInfo");
+			userInfo = (UserInfoEntity) SessionUtil.getAttribute("userInfo");
 			if(userInfo == null) {
 				return Header.Error();
 			}
@@ -47,11 +53,11 @@ public class BoardApiController
 
 	@Override
 	@PostMapping("list")
-	public Header<BoardApiResponse> read(@RequestBody Header<BoardApiRequest> request) {
+	public Header<BoardApiResponse> readList(@RequestBody Header<BoardApiRequest> request) {
 		System.out.println("############# read");
 		System.out.println(request);
 		
-		return service.read(request);
+		return service.readList(request);
 	}
 
 	@Override

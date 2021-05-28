@@ -1,7 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.edgc.login.mapper.LoginMapper">
-	<select id="selectUserInfo" resultType="UserInfo" parameterType="UserInfo">
+	<select id="selectUserInfo" resultType="UserInfoEntity" parameterType="UserInfoEntity">
 		SELECT *
 		  FROM USER_INFO
 		 WHERE 1 = 1

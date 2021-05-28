@@ -4,20 +4,20 @@ import java.util.ArrayList;
 
 import com.edgc.board.model.entity.BoardEntity;
 import com.edgc.board.model.entity.FileEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BoardForm extends BoardEntity {
 	private String company;
 	private ArrayList<ReplyForm> replyList;

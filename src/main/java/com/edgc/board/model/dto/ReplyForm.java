@@ -2,17 +2,15 @@ package com.edgc.board.model.dto;
 
 import com.edgc.board.model.entity.BoardEntity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
 public class ReplyForm extends BoardEntity {

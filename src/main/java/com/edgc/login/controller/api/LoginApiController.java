@@ -12,6 +12,12 @@ import com.edgc.login.model.network.request.LoginApiRequest;
 import com.edgc.login.model.network.response.LoginApiResponse;
 import com.edgc.login.service.LoginApiService;
 
+/**
+ * 로그인 관련 RestAPI Controller입니다.
+ * 
+ * @author MINHYEOK.KIM
+ */
+
 @RestController
 @RequestMapping("/api/login")
 public class LoginApiController extends BaseApiController
@@ -19,9 +25,9 @@ public class LoginApiController extends BaseApiController
 	
 	@Override
 	@PostMapping("")
-	public Header<LoginApiResponse> read(@RequestBody Header<LoginApiRequest> request) {
+	public Header<LoginApiResponse> readList(@RequestBody Header<LoginApiRequest> request) {
 		System.out.println("### login");
-		return this.service.read(request);
+		return this.service.readList(request);
 	}
 	
 	@PostMapping("logout")

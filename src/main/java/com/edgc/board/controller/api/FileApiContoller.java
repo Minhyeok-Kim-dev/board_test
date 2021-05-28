@@ -15,6 +15,12 @@ import com.edgc.board.service.FileApiService;
 import com.edgc.common.base.controller.BaseApiController;
 import com.edgc.common.base.model.network.Header;
 
+/**
+ * file 처리 관련 RestAPI Controller입니다.
+ * 
+ * @author MINHYEOK.KIM
+ */
+
 @RestController
 @RequestMapping(value="/api/file")
 public class FileApiContoller extends BaseApiController

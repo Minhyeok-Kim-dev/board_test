@@ -7,7 +7,7 @@ import com.edgc.common.base.model.network.Header;
 import com.edgc.common.base.service.BaseApiService;
 import com.edgc.common.util.SessionUtil;
 import com.edgc.login.mapper.LoginMapper;
-import com.edgc.login.model.entity.UserInfo;
+import com.edgc.login.model.entity.UserInfoEntity;
 import com.edgc.login.model.network.request.LoginApiRequest;
 import com.edgc.login.model.network.response.LoginApiResponse;
 
@@ -17,10 +17,10 @@ public class LoginApiService extends BaseApiService<LoginApiRequest, LoginApiRes
 	LoginMapper loginMapper;
 	
 	@Override
-	public Header<LoginApiResponse> read(Header<LoginApiRequest> request) {
+	public Header<LoginApiResponse> readList(Header<LoginApiRequest> request) {
 		LoginApiRequest body = request.getData();
 		
-		UserInfo userInfo = body.getUserInfo();
+		UserInfoEntity userInfo = body.getUserInfo();
 		
 		if(userInfo == null) {
 			return Header.Error();

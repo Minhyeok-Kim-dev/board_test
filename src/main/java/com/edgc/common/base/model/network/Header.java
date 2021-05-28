@@ -4,11 +4,26 @@ import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
-@Data
+/**
+ * Client와 데이터 송수신에 사용되는 Custom Header class입니다.
+ *  
+ *  
+ * Package 구성
+ * - domain package > model > network 
+ * 
+ * 
+ * @author MINHYEOK.KIM
+ *
+ * @param <T> 송수신에 사용되는 data type
+ *   - 주로 BaseApiRequest 상속 class, BaseApiResponse 상속 class가 사용됩니다.
+ */
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

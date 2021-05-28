@@ -1,16 +1,19 @@
 package com.edgc.login.model.dto;
 
 import com.edgc.common.base.model.dto.BaseDto;
-import com.edgc.login.model.entity.UserInfo;
+import com.edgc.login.model.entity.UserInfoEntity;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@NoArgsConstructor
 @SuperBuilder
-public class LoginDto extends BaseDto<UserInfo> {
+@ToString
+public class LoginDto extends BaseDto<UserInfoEntity> {
 	
 }

@@ -6,14 +6,40 @@
 	
 	////////////////////////////////////////////////////////////////////////
 	/*
-	 *	Common Area 
+	 *	Common Area (게시판 - 공통)
 	 */
 	////////////////////////////////////////////////////////////////////////
+	
+	/*
+     * init
+     * 
+     * @description: 
+     *   게시판 관련 공통 초기화를 수행합니다.
+     * 
+     * @param: 
+     *   {none} 
+     * 
+     * @return: 
+     *   {none}  
+     */
 	function init() {
 		_initEvents();
 	}
 
-	// 게시판 공통 event 정의
+
+	
+	/*
+     * _initEvents
+     * 
+     * @description: 
+     *   게시판 관련 공통 이벤트를 초기화합니다.
+     * 
+     * @param: 
+     *   {none} 
+     * 
+     * @return: 
+     *   {none}  
+     */
 	function _initEvents() {
 		// 'logout' 버튼
 		$("#sidebar_btnLogout").on("click", function() {
@@ -26,12 +52,44 @@
 	}
 	
 	
+	
 	////////////////////////////////////////////////////////////////////////
 	/*
-	 *	Write Form Area 
+	 *	Write Form Area (게시판 - 작성화면)
 	 */
 	////////////////////////////////////////////////////////////////////////
-	// 게시판 - 작성화면 event 정의
+	
+	/*
+     * showWriteForm
+     * 
+     * @description: 
+     *   게시판 - 작성화면을 출력합니다.
+     * 
+     * @param: 
+     *   {none} 
+     * 
+     * @return: 
+     *   {none}  
+     */
+	function showWriteForm() {
+		util.showPage("board/writeForm", $("#contents")).then(function() {
+			_initWriteFormEvents();		
+		});
+	}
+	
+	
+	/*
+     * _initWriteFormEvents
+     * 
+     * @description: 
+     *   게시판 - 작성화면 이벤트를 초기화합니다.
+     * 
+     * @param: 
+     *   {none} 
+     * 
+     * @return: 
+     *   {none}  
+     */
 	function _initWriteFormEvents() {
 		// - '저장' 버튼
 		$("#writeForm_btnSave").on("click", function(e) {
@@ -50,11 +108,14 @@
 			
 			let filesLen = $("#writeForm_filesForm input[name='file']")[0].files.length;
 			
+			// file upload -> 게시판 내용 저장 순서로 처리
+			// - file 저장
 			_fileUpload(filesLen).then(function(result) {
 				if(result !== false) {
 					header.data.fileList = result.data.fileList;
 				}
 				
+				// - 게시판 내용 저장
 				util.sendPostRequest("api/board", JSON.stringify(header)).then(function(result) {
 	                alert(result);
 	            });
@@ -63,13 +124,19 @@
 		});
 	}
 	
-	function showWriteForm() {
-		util.showPage("board/writeForm", $("#contents")).then(function() {
-			_initWriteFormEvents();		
-		});
-	}
 	
-	
+	/*
+     * _fileUpload <PROMISE>
+     * 
+     * @description: 
+     *   form에 등록된 file upload를 수행합니다.
+     * 
+     * @param: 
+     *   {Number} filesLen:  현재 file form의 file 갯수
+     * 
+     * @return: 
+     *   {Object} data.fileList: 저장된 file 정보 리스트 (FileEntity)    
+     */
 	function _fileUpload(filesLen) {
 		return new Promise(function(resolve) {
 			if(filesLen === 0) {
@@ -86,7 +153,7 @@
                 "data": formData
             }).done(function(data) {    
 				resolve(data);
-            }).fail(function(data) {
+            }).fail(function() {
                 resolve(false);
             });
 		});
@@ -95,9 +162,22 @@
 	
 	////////////////////////////////////////////////////////////////////////
 	/*
-	 *	List Form Area 
+	 *	List Form Area - (게시판 - 리스트)
 	 */
 	////////////////////////////////////////////////////////////////////////
+	
+	/*
+     * showListForm
+     * 
+     * @description: 
+     *   게시판 - 리스트 화면을 출력합니다.
+     * 
+     * @param: 
+     *   {none} 
+     * 
+     * @return: 
+     *   {none}  
+     */
 	function showListForm() {
 		util.showPage("board/listForm", $("#contents")).then(function() {
 			let header = {
@@ -134,7 +214,7 @@
      * _initBoardListTable
      * 
      * @description: 
-     *   DataTable 초기화
+     *   DataTable 초기화합니다.
      * 
      * @param: 
      *   {Object} data: DataTable bind 할 data (JSON)
@@ -197,7 +277,7 @@
      * _clearBoardListTable
      * 
      * @description: 
-     *   DataTable 데이터 삭제
+     *   DataTable 데이터 삭제합니다.
      * 
      * @param: 
      *   {none} 
@@ -229,9 +309,22 @@
 	
 	////////////////////////////////////////////////////////////////////////
 	/*
-	 *	Detail Form Area 
+	 *	Detail Form Area (게시판 - 게시글 상세)
 	 */
 	////////////////////////////////////////////////////////////////////////
+	
+	/*
+     * _showDetailFormByRowData
+     * 
+     * @description: 
+     *   게시판 - 게시글 상세화면을 출력합니다.
+     * 
+     * @param: 
+     *   {Number} idx: 게시글 idx 
+     * 
+     * @return: 
+     *   {none}  
+     */
 	function _showDetailFormByRowData(idx) {
 		util.showPage("board/detailForm", $("#contents")).then(function() {
 			// 상세 영역 초기화
@@ -244,8 +337,22 @@
 		});
 	}
 	
+	
+	/*
+     * _initDetailForm
+     * 
+     * @description: 
+     *   게시글 상세화면 - 게시글 영역 내용을 초기화합니다.
+     * 
+     * @param: 
+     *   {Number} idx: 게시글 idx 
+     * 
+     * @return: 
+     *   {none}  
+     */
 	function _initDetailForm(idx) {
 		let url = "api/board/" + idx;
+		
 		util.sendGetRequest(url).then(function(result) {
 			if(result !== "undefined" && result.success === true) {
 				_detailBoardData = result.data.boardForm;
@@ -261,6 +368,18 @@
 		});
 	}
 	
+	/*
+     * _initDetailFormEvents
+     * 
+     * @description: 
+     *   게시글 상세화면 - 게시글 영역 이벤트를 초기화합니다.
+     * 
+     * @param: 
+     *   {none} 
+     * 
+     * @return: 
+     *   {none}  
+     */
 	function _initDetailFormEvents() {
 		// '수정' 버튼
 		$("#detailForm_btnModify").on("click", function(e) {
@@ -300,13 +419,38 @@
 	
 	////////////////////////////////////////////////////////////////////////
 	/*
-	 *	Detail Form > Reply Form Area 
+	 *	Detail Form > Reply Form Area (게시판 - 게시글 상세 - 댓글) 
 	 */
 	////////////////////////////////////////////////////////////////////////
+	
+	/*
+     * _initReplyForm
+     * 
+     * @description: 
+     *   게시글 상세화면 - 댓글 영역 내용을 초기화합니다.
+     * 
+     * @param: 
+     *   {Number} parentsIdx: 게시글 idx 
+     * 
+     * @return: 
+     *   {none}  
+     */
 	function _initReplyForm(parentsIdx) {
 		
 	}
 	
+	/*
+     * _initReplyFormEvents
+     * 
+     * @description: 
+     *   게시글 상세화면 - 댓글 영역 이벤트를 초기화합니다.
+     * 
+     * @param: 
+     *   {none} 
+     * 
+     * @return: 
+     *   {none}  
+     */
 	function _initReplyFormEvents() {
 		// '저장' 버튼
 		$("#replyForm_btnSave").on("click", function() {

@@ -4,13 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
-@Data
+/**
+ * 게시판 paging 처리에 사용되는 parameter class입니다.
+ * 
+ * @author MINHYEOK.KIM
+ */
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder
 @ToString
 public class Paging {
 	@JsonProperty("cPage")	// TODO: camel 자동적용 안되는 이유 확인 필요

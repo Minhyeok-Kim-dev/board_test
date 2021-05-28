@@ -2,7 +2,6 @@ package com.edgc.common.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -15,6 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 파일 처리 관련 util class입니다.
+ * 
+ * @author MINHYEOK.KIM
+ */
 @Component
 public class FileUtil {
 	public static String FILE_PATH = "";
@@ -24,9 +28,18 @@ public class FileUtil {
 		FILE_PATH = fileDir;
 	}
 	
-	public static void fileUpload(String fileDir, String prefix, MultipartFile file) throws IOException {
+	
+	/**
+	 * file upload를 처리합니다.
+	 * 
+	 * @param filePath 		파일이 저장되는 물리 directory 경로
+	 * @param prefix		저장할 파일명의 접두어
+	 * @param file			저장할 파일
+	 * @throws IOException
+	 */
+	public static void fileUpload(String filePath, String prefix, MultipartFile file) throws IOException {
 		String fileName = file.getOriginalFilename();
-		String absolutePath = fileDir + File.separator + prefix + "_" + fileName;
+		String absolutePath = filePath + File.separator + prefix + "_" + fileName;
 		
 		try (FileOutputStream fos = new FileOutputStream(absolutePath)){
 			byte[] fileData = file.getBytes();
@@ -36,10 +49,29 @@ public class FileUtil {
 		} 
 	}
 	
+	
+	/**
+	 * file upload를 처리합니다.
+	 * - 파일이 저장되는 물리 directory 경로는 file.properties에 저장된 경로로 설정합니다.
+	 * 
+	 * @param prefix		저장할 파일명의 접두어
+	 * @param file			저장할 파일
+	 * @throws IOException	
+	 */
 	public static void fileUpload(String prefix, MultipartFile file) throws IOException {
 		fileUpload(FILE_PATH, prefix, file);
 	}
 	
+	
+	/**
+	 * file download를 처리합니다.
+	 * 
+	 * @param filePath		파일이 저장되는 물리 directory 경로
+	 * @param orgFileNm		원본 파일명
+	 * @param saveFileNm	저장된 파일명
+	 * @return				file관련 header, body적용한 ResponseEntity
+	 * @throws IOException
+	 */
 	public static ResponseEntity<InputStreamResource> fileDownload(String filePath, String orgFileNm, String saveFileNm) throws IOException {
 		File file = new File(filePath + File.separator + saveFileNm);
 		

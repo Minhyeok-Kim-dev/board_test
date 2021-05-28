@@ -8,25 +8,33 @@ import com.edgc.board.model.network.parameter.Paging;
 import com.edgc.board.model.network.parameter.Search;
 import com.edgc.board.model.network.parameter.Sort;
 import com.edgc.common.base.model.network.request.BaseApiRequest;
-import com.edgc.login.model.entity.UserInfo;
+import com.edgc.login.model.entity.UserInfoEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+/**
+ * 게시판 관련 ApiRequest class입니다.
+ * 
+ * @author MINHYEOK.KIM
+ */
+
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@SuperBuilder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BoardApiRequest extends BaseApiRequest {
 	private Search search;
 	private Paging paging;
 	private ArrayList<Sort> sort;
 	private BoardEntity board;
-	private UserInfo userInfo;
+	private UserInfoEntity userInfo;
 	
 	private ArrayList<FileEntity> fileList;
 }

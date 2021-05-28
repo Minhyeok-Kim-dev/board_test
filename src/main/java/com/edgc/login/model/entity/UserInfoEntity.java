@@ -2,16 +2,24 @@ package com.edgc.login.model.entity;
 
 import com.edgc.common.base.model.entity.BaseEntity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+/**
+ * USER_INFO table entity입니다.
+ * 
+ * @author MINHYEOK.KIM
+ */
+
+@Getter
+@Setter
 @NoArgsConstructor
 @SuperBuilder
-public class UserInfo extends BaseEntity {
+@ToString(callSuper = true)
+public class UserInfoEntity extends BaseEntity {
 	private String edgcid;
 	private String passwd;
 	private String edgctype;

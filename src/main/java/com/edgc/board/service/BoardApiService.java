@@ -25,7 +25,7 @@ import com.edgc.common.base.model.network.Header;
 import com.edgc.common.base.service.BaseApiService;
 import com.edgc.common.util.DateUtil;
 import com.edgc.common.util.SessionUtil;
-import com.edgc.login.model.entity.UserInfo;
+import com.edgc.login.model.entity.UserInfoEntity;
 
 @Service
 public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiResponse>{
@@ -43,14 +43,13 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 		BoardApiRequest body = request.getData();
 		
 		BoardEntity board = body.getBoard();
-		UserInfo userInfo = body.getUserInfo();
+		UserInfoEntity userInfo = body.getUserInfo();
 		ArrayList<FileEntity> fileList = body.getFileList();
 		
 		// parentIdx 존재 유무로 board, reply 구분
 		Boolean isBoard = (board.getParentsIdx() == null) ? true : false;
 		// file 존재여부
 		Boolean isExistFile = (fileList != null) ? true : false;
-		
 		
 		if(isBoard) {
 			// 게시글
@@ -101,7 +100,7 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 				
 				System.out.println("############## file list");
 				if(fileList != null) {
-					// Entity field 추가설정
+					// Entity field key설정
 					for(FileEntity file : fileList) {
 						file.setBoardIdx(boardIdx);
 						file.setRegid(userInfo.getEdgcid());
@@ -125,16 +124,16 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 	}
 
 	@Override
-	public Header<BoardApiResponse> read(Header<BoardApiRequest> request) {
+	public Header<BoardApiResponse> readList(Header<BoardApiRequest> request) {
 		BoardApiRequest body = request.getData();
 		Search search = body.getSearch();
 		Paging paging = body.getPaging();
 		ArrayList<Sort> sortList = body.getSort();
 		
 		// 세션에서 사용자 정보 가져옴 - TODO: AOP 적용
-		UserInfo userInfo = null;
+		UserInfoEntity userInfo = null;
 		try {
-			userInfo = (UserInfo) SessionUtil.getAttribute("userInfo");
+			userInfo = (UserInfoEntity) SessionUtil.getAttribute("userInfo");
 			if(userInfo == null) {
 				return null;
 			}
@@ -185,13 +184,14 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 				.entity(BoardEntity.builder().idx(idx).build())
 				.build();
 		
+		// BoardForm - 게시판 내용 추가
 		BoardForm boardForm = boardMapper.selectBoardFormByIdx(boardDto);
 		
-		// 댓글 리스트 추가
+		// BoardForm - 댓글 리스트 추가
 		ArrayList<ReplyForm> replyFormList = boardMapper.selectReplyFormListByBoardIdx(boardDto);
 		boardForm.setReplyList(replyFormList);
 		
-		// 파일 리스트 추가
+		// BoardForm - 파일 리스트 추가
 		FileEntity fileEntity = FileEntity.builder()
 				.boardIdx(idx)
 				.build();
@@ -201,7 +201,6 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 		
 		System.out.println(boardForm);
 		
-		// TODO Auto-generated method stub
 		return response(boardForm);
 	}
 
@@ -218,9 +217,9 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 		}
 		
 		// 세션에서 사용자 정보 가져옴 - TODO: AOP 적용
-		UserInfo userInfo = null;
+		UserInfoEntity userInfo = null;
 		try {
-			userInfo = (UserInfo) SessionUtil.getAttribute("userInfo");
+			userInfo = (UserInfoEntity) SessionUtil.getAttribute("userInfo");
 			if(userInfo == null) {
 				return Header.Error();
 			}
@@ -246,9 +245,9 @@ public class BoardApiService extends BaseApiService<BoardApiRequest, BoardApiRes
 				.build();
 		
 		// 세션에서 사용자 정보 가져옴 - TODO: AOP 적용
-		UserInfo userInfo = null;
+		UserInfoEntity userInfo = null;
 		try {
-			userInfo = (UserInfo) SessionUtil.getAttribute("userInfo");
+			userInfo = (UserInfoEntity) SessionUtil.getAttribute("userInfo");
 			if(userInfo == null) {
 				return Header.Error();
 			}

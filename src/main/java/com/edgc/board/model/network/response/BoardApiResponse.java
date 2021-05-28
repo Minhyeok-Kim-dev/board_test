@@ -8,17 +8,23 @@ import com.edgc.board.model.network.parameter.Paging;
 import com.edgc.common.base.model.network.response.BaseApiResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+/**
+ * 게시판 관련 ApiResponse class입니다.
+ * 
+ * @author MINHYEOK.KIM
+ */
+
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BoardApiResponse extends BaseApiResponse {
 	private Paging paging;

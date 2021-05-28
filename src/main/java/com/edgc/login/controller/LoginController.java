@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.edgc.login.service.LoginApiService;
 
+/**
+ * 로그인 관련 View Controller입니다.
+ * 
+ * @author MINHYEOK.KIM
+ */
+
 @Controller
 @RequestMapping(value = "/")
 public class LoginController {

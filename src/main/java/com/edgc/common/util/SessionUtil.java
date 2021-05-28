@@ -4,12 +4,13 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 /**
- * Session 처리 관련 util class
- * @author Minhyeok Kim
+ * Session 처리 관련 util class입니다.
+ * 
+ * @author MINHYEOK.KIM
  */
 public class SessionUtil {
 	/**
-	 * 세션 attribute 가져옴
+	 * 세션 attribute명에 해당하는 attribute를 반환합니다.
 	 * @param name
 	 * @return session object
 	 * @throws Exception
@@ -19,7 +20,7 @@ public class SessionUtil {
 	}
 	
 	/**
-	 * 세션 attribute 설정
+	 * 세션 attribute를 설정합니다.
 	 * @param name - 속성명
 	 * @param object - 속성값
 	 * @throws Exception
@@ -29,8 +30,8 @@ public class SessionUtil {
 	}
 	
 	/**
-	 * 설정한 Attribute 삭제 
-	 * @param name - 속성명
+	 * 세션 attribute명에 해당하는 attribute를 삭제합니다. 
+	 * @param name - attribute명
 	 * @throws Exception
 	 */
 	public static void removeAttribute(String name) throws Exception {
@@ -38,7 +39,7 @@ public class SessionUtil {
 	}
 	
 	/**
-	 * session id 반환
+	 * session id를 반환합니다.
 	 * @return session id
 	 * @throws Exception
 	 */
